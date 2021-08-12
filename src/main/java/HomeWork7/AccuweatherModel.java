@@ -1,5 +1,6 @@
 package HomeWork7;
 
+import HomeWork7.entity.Weather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.HttpUrl;
@@ -8,6 +9,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AccuweatherModel implements WeatherModel {
     //http://dataservice.accuweather.com/forecasts/v1/daily/1day/349727
@@ -27,7 +29,7 @@ public class AccuweatherModel implements WeatherModel {
     private static final OkHttpClient okHttpClient = new OkHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    //private DataBaseRepository dataBaseRepository = new DataBaseRepository();
+    private DataBaseRepository dataBaseRepository = new DataBaseRepository();
 
     public void getWeather(String selectedCity, Period period) throws IOException {
         switch (period) {
@@ -92,6 +94,12 @@ public class AccuweatherModel implements WeatherModel {
                 System.out.println(weatherResponseFiveDays);
                 break;
         }
+    }
+
+    @Override
+    public List<Weather> getSavedToDBWeather() {
+        return dataBaseRepository.getSavedToDBWeather();
+
     }
 
     private static String detectCityKey(String selectCity) throws IOException {
